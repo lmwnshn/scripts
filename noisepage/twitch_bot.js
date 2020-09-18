@@ -9,6 +9,7 @@
 // There are TOCTOU bugs in this file.
 // Don't use for anything serious.
 
+const fs = require('fs');                       // Append to file.
 const { spawn } = require('child_process');     // Spawn subprocess.
 const tmi = require('tmi.js');                  // Twitch API.
 
@@ -21,6 +22,7 @@ var alive = false;      // Global variable, checks if psql is alive.
 var psql = null;        // Global variable, the spawned psql process.
 var sqlQueue = [];      // Global variable, bounded queue of sql to run.
 const sqlQueueMaxLen = 20; // Bound the sqlQueue since we're using .shift().
+var histBuf = [];       // Global variable, buffer of recent commands.
 
 // Spawn psql if necessary.
 function spawnPsql() {
@@ -34,8 +36,9 @@ function spawnPsql() {
   console.log('Type "help" for help.\n');
   process.stdout.write('terrier=# ');
 
-  // Reset the sql queue.
+  // Reset the sql queue and history buffer.
   sqlQueue = [];
+  histBuf = [];
 
   // Spawn psql. All stdout and stderr from psql will be printed.
   psql = spawn('psql', psql_args);
@@ -52,11 +55,12 @@ function spawnPsql() {
   psql.on('close', (code) => {
     console.log(`psql exited with code ${code}`);
     alive = false;
+    fs.appendFileSync('crash.txt', histBuf.join('\n') + '=====\n');
   });
 
   // psql successfully spawned and ready for business.
   alive = true;
-  sqlQueue.push('\\timing');
+  sqlQueue.push(['BOT', '\\timing']);
 }
 
 // Run SQL commands if any exist.
@@ -65,8 +69,14 @@ function getAndRunSQL() {
   if (0 == sqlQueue.length) return;
   // Otherwise, run one SQL command.
   // TODO(WAN): terrible performance, doesn't matter if queue is <= 100 elems
-  var sql = sqlQueue.shift();
+  var task = sqlQueue.shift();
+  var username = task[0];
+  var sql = task[1];
   console.log(sql);
+  histBuf.push(username + ' ' + sql);
+  if (histBuf.length >= sqlQueueMaxLen) {
+    histBuf.shift();
+  }
   psql.stdin.write(sql + '\n');
 }
 
@@ -101,7 +111,7 @@ function onMessageHandler (target, context, msg, self) {
       client.say(target, `Sorry, queue too long with ${sqlQueue.length} elements, ignoring: ${sql}`);
       return;
     }
-    sqlQueue.push(sql);
+    sqlQueue.push([context.username, sql]);
     client.say(target, `Queued: ${sql}`);
   }
 }
