@@ -28,7 +28,7 @@ var histBuf = [];       // Global variable, buffer of recent commands.
 function spawnPsql() {
   // If psql is already alive, do nothing.
   if (alive) return;
-  console.log(`[HEALTH] psql doesn't seem to be alive, reviving.`);
+  console.log(`👻 psql dead or pining for the fjords, reviving.`);
 
   // TODO(WAN): make psql not headless, for now the startup message is faked.
   console.log('💩 # psql ' + psql_args.join(' '));
@@ -77,7 +77,9 @@ function getAndRunSQL() {
   if (histBuf.length >= sqlQueueMaxLen) {
     histBuf.shift();
   }
-  psql.stdin.write(sql + '\n');
+  try {
+    psql.stdin.write(sql + '\n');
+  } catch (err) { /* heh */ }
 }
 
 // ===== TWITCH SETUP =====
@@ -122,8 +124,8 @@ function onConnectedHandler(addr, port) {
 
 // ===== LOGIC =====
 
-setInterval(spawnPsql, 2500);
-setInterval(getAndRunSQL, 5000);
+setInterval(spawnPsql, 5000);
+setInterval(getAndRunSQL, 1000);
 client.on('message', onMessageHandler);
 client.on('connected', onConnectedHandler);
 client.connect();
