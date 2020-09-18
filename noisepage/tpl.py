@@ -10,7 +10,7 @@ import argparse
 import os
 
 
-PROJECT_ROOT = r'/home/cmudb/CLionProjects/terrier/'
+PROJECT_ROOT = r'/home/kapi/CLionProjects/terrier/'
 
 
 def extract_f_args(sym, filepath):
