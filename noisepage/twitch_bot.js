@@ -55,7 +55,7 @@ function spawnPsql() {
   psql.on('close', (code) => {
     console.log(`psql exited with code ${code}`);
     alive = false;
-    fs.appendFileSync('crash.txt', histBuf.join('\n') + '=====\n');
+    fs.appendFileSync('crash.txt', histBuf.join('\n') + '\n=====\n');
   });
 
   // psql successfully spawned and ready for business.
