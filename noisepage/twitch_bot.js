@@ -28,7 +28,7 @@ var histBuf = [];       // Global variable, buffer of recent commands.
 function spawnPsql() {
   // If psql is already alive, do nothing.
   if (alive) return;
-  console.log(`👻 psql dead or pining for the fjords, reviving.`);
+  console.log(`👻 psql dead or pining for the fjords, reviving.\n\n`);
 
   // TODO(WAN): make psql not headless, for now the startup message is faked.
   console.log('💩 # psql ' + psql_args.join(' '));
