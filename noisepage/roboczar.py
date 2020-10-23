@@ -73,9 +73,11 @@ def merge_pr(J, G, pr):
             be_patient(10)
 
     # Merge the PR on GitHub.
+    print('Github: merging {}.'.format(pr_name))
     merge_status = pull.merge(pr['message'], pr['title'], 'squash')
     if not merge_status.merged:
         raise Exception('Could not merge {}. Stop!'.format(pr_name))
+    print('Github: merged {}.'.format(pr_name))
 
 
 def main():
