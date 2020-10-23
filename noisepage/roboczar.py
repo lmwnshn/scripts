@@ -57,9 +57,12 @@ def merge_pr(J, G, pr):
         job = J.get_job(pr_name)
         build = job.get_last_build()
         print('Jenkins: {} build {}'.format(pr_name, build.buildno))
-        while build.is_running():
+
+        if build.is_running():
             print('Jenkins: Build still running, waiting...'.format(pr_name))
             be_patient(300)
+            continue
+
         if build.is_good():
             print('Jenkins: {} build {} is good.'.format(pr_name, build.buildno))
             passing = True
