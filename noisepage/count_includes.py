@@ -10,7 +10,7 @@ import os
 import networkx as nx
 
 
-BASE_DIR = r'/home/cmudb/CLionProjects/terrier/'
+BASE_DIR = r'/home/kapi/CLionProjects/noisepage/'
 SRC_INC_DIR = os.path.join(BASE_DIR, 'src/include/')
 THIRD_PARTY_DIR = os.path.join(BASE_DIR, 'third_party/')
 
@@ -44,6 +44,7 @@ def main():
         try:
             filesize = os.path.getsize(os.path.join(SRC_INC_DIR, header))
         except FileNotFoundError:
+            continue
             filesize = os.path.getsize(os.path.join(THIRD_PARTY_DIR, header))
         product = filesize * num_includes
         print("{},{},{},{}".format(header, num_includes, filesize, product))

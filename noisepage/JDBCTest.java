@@ -3,13 +3,12 @@ import java.sql.*;
 public class JDBCTest {
 
   private static final String DB_URL =
-   "jdbc:postgresql://localhost:15721/terrier?preferQueryMode=extended";
-  private static final String DB_USER = "terrier";
+   "jdbc:postgresql://localhost:15721/noisepage?preferQueryMode=extended";
+  private static final String DB_USER = "noisepage";
   private static final String DB_PASS = "";
 
   private static final String[] SQL_STRINGS = new String[]{
-    "CREATE TABLE foo (a int)",
-    "CREATE INDEX bar ON foo (a)"
+    "CREATE TABLE foo (a int)"
   };
 
   public static void main(String[] args) {

@@ -10,7 +10,7 @@ import argparse
 import os
 
 
-PROJECT_ROOT = r'/home/kapi/CLionProjects/terrier/'
+PROJECT_ROOT = r'/home/kapi/CLionProjects/noisepage/'
 
 
 def extract_f_args(sym, filepath):

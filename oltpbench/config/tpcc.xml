@@ -4,8 +4,8 @@
     <!-- Connection details -->
     <dbtype>noisepage</dbtype>
     <driver>org.postgresql.Driver</driver>
-    <DBUrl>jdbc:postgresql://localhost:15721/terrier</DBUrl>
-    <username>terrier</username>
+    <DBUrl>jdbc:postgresql://localhost:15721/noisepage</DBUrl>
+    <username>noisepage</username>
     <password></password>
     <isolation>TRANSACTION_READ_COMMITTED</isolation>
     
@@ -13,7 +13,7 @@
     <scalefactor>1</scalefactor>
     
     <!-- The workload -->
-    <terminals>4</terminals>
+    <terminals>1</terminals>
     <works>
         <work>
           <time>30</time>
